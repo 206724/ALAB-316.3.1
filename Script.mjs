@@ -56,23 +56,106 @@ menulinks.forEach(menulinks =>{
 
 const subMenuEl= document.getElementById('sub-menu')
  subMenuEl.style.height=`100%`
- subMenuEl.style.backgroundColor =`--sub-menu-bg`
+ subMenuEl.style.backgroundColor =`var(--sub-menu-bg)`
  subMenuEl.classList.add(`flex-around`)
 
 //Part 4: Adding Menu Interaction
 
 
-let topMenuLinks= document.querySelectorall('a');
+let topMenuLinks= document.querySelector('a');
 
 topMenuLinks.addEventListener('click',function(event){
     
-    if(event.target.preventDefault()){
-        
-        event.preventDefault()
-    }
+  event.preventDefault();
+  const link= event.target
+  if(link.tagName != 'A') return;
+  console.log(link.textContent);  
+})
 
-    else{
-          return('it is not an achor element')
-    }
 
+///add class
+//get all menu items
+const menuItems = document.querySelectorAll("a")
+
+//add a click event listener to each men item
+
+menuItems.forEach(menuItem => {
+  menuItem.addEventListener('click',() => {
+    // remove the active class from all menu items
+    menuItems.forEach(item => item.classList.remove('active'));
+
+    //Add the active class to the clicked menu item
+
+    menuItem.classList.add('active');
+  })
+} )
+
+
+
+// const link = document.querySelectorAll("a")
+// if (link.classList.contains('active')) {
+//   link.classList.remove('active');
+//   showingSubMenu = false;
+//   subMenuEl.style.top = '0';
+//   return;
+// }
+// topMenuLinks.forEach(function(link) {
+//   link.classList.remove('active');
+// });
+
+
+
+
+////Part 5: Adding Submenu Interaction
+
+//  link.classList.remove('active');
+// if (link.classList.contains('active')) {
+//   link.classList.remove('active');
+//   showingSubMenu = false;
+//   subMenuEl.style.top = '0';
+//   return;
+// }
+
+// topMenuLinks.forEach(function(link) {
+//   link.classList.remove('active');
+// });
+// link.classList.remove('active');
+
+// link.classList.remove('active');
+const link = menulinks.find(function (subLinks) 
+ {
+return subLinks.text === link.textContent
 });
+
+if (showingSubMenu) {
+  buildSubMenu(link.subLinks);
+  subMenuEl.style.top = '100%';
+ } else {
+  subMenuEl.style.top ='0';
+ }
+
+function buildSubMenu(subLinks){
+  subMenuEl.innerHTML = '';
+  subLinks.forEach(function(link)
+  {
+     const linkEl= setAttribute ('href', link.href);
+     linkEl.textContent =link.text;
+    subMenuEl.appendChild(linkEl);
+  })
+}
+
+subMenuEl.addEventLister('click', function(event) {
+  event.preventDefault();
+  var link = event.target;
+  if (link.tagName !== 'A') return;
+  console.log(link.textContent);
+})
+showingSubMenu = false;
+subMenuEl.style.top = '0';
+
+topMenuLinks.foreach(function(link) {
+  link.ClassList.remove('active');
+});
+
+mainEl.innerHTMl = `<h1>${link.textContent}</h1>`;
+
