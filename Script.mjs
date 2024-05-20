@@ -50,32 +50,39 @@ menulinks.forEach(menulinks =>{
 
 })
 
-//**********************
 
-//Part 3: Creating the Submenu********
+// //Part 3: Creating the Submenu********
 
 const subMenuEl= document.getElementById('sub-menu')
  subMenuEl.style.height=`100%`
  subMenuEl.style.backgroundColor =`var(--sub-menu-bg)`
  subMenuEl.classList.add(`flex-around`)
+ subMenuEl.style.position='absolut';
+ subMenuEl.style.top='0'
 
 //Part 4: Adding Menu Interaction
 
-
-let topMenuLinks= document.querySelector('a');
-
+//Select and cache the all of the <a> elements inside of topMenuEl in a variable
+const topMenuLinks =topMenuEl.querySelector('a')
+//Attach a delegated 'click' event listener to topMenuEl.
 topMenuLinks.addEventListener('click',function(event){
-    
+ //The first line of code of the event listener function should
+ // call the event object's preventDefault() method.  
+
   event.preventDefault();
-  const link= event.target
-  if(link.tagName != 'A') return;
-  console.log(link.textContent);  
+  //The second line of code of the function should immediately
+  // return if the element clicked was not an <a> element
+  const clickedElement= event.target
+  if(clickedElement.tagName !== 'A') return;
+
+  //Log the content of the <a> to verify the handler is working.
+    console.log(clickedElement.textContent);  
 })
 
 
-///add class
+
 //get all menu items
-const menuItems = document.querySelectorAll("a")
+const menuItems = document.querySelectorAll('a')
 
 //add a click event listener to each men item
 
@@ -91,71 +98,64 @@ menuItems.forEach(menuItem => {
 } )
 
 
+///**************************************
+document.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click',function(event){
+    event.preventDefault();
 
-// const link = document.querySelectorAll("a")
-// if (link.classList.contains('active')) {
-//   link.classList.remove('active');
-//   showingSubMenu = false;
-//   subMenuEl.style.top = '0';
-//   return;
-// }
-// topMenuLinks.forEach(function(link) {
-//   link.classList.remove('active');
-// });
+    const clickedLink =event.target;
+    const isactive = clickedLink.classList.contains('active');
+    
+    const linkObj = menulinks.find(link => link.text === clickedLink.textContent);
+    if (linkObj && linkObj.subLinks){
+       subMenuEl.style.top =isactive ? '0' : '100%'; 
+    } else{
+        subMenuEl.style.top = 0;
+    }
+  })
+})
 
-
-
-
-////Part 5: Adding Submenu Interaction
-
-//  link.classList.remove('active');
-// if (link.classList.contains('active')) {
-//   link.classList.remove('active');
-//   showingSubMenu = false;
-//   subMenuEl.style.top = '0';
-//   return;
-// }
-
-// topMenuLinks.forEach(function(link) {
-//   link.classList.remove('active');
-// });
-// link.classList.remove('active');
-
-// link.classList.remove('active');
-const link = menulinks.find(function (subLinks) 
- {
-return subLinks.text === link.textContent
-});
-
-if (showingSubMenu) {
-  buildSubMenu(link.subLinks);
-  subMenuEl.style.top = '100%';
- } else {
-  subMenuEl.style.top ='0';
- }
+///////
 
 function buildSubMenu(subLinks){
-  subMenuEl.innerHTML = '';
-  subLinks.forEach(function(link)
-  {
-     const linkEl= setAttribute ('href', link.href);
-     linkEl.textContent =link.text;
-    subMenuEl.appendChild(linkEl);
-  })
+  //clear current content of subMenuEL
+subMenuEl.innerHTML ='';
+//iterate over the sublink array and create <a> elements
+subLinks.forEach(link => {
+  const a = document.createElement('a');
+  a.href = link.href;
+  a.textContent = link.text;
+  subMenuEl.appendChild(a);
+})
+
+  
 }
 
+
+//********************************** */
 subMenuEl.addEventLister('click', function(event) {
   event.preventDefault();
-  var link = event.target;
-  if (link.tagName !== 'A') return;
+  const link = event.target;
+  if (link.tagName !== 'A') {
+    return;
+  }
   console.log(link.textContent);
 })
-showingSubMenu = false;
+
 subMenuEl.style.top = '0';
 
 topMenuLinks.foreach(function(link) {
   link.ClassList.remove('active');
 });
+ const clickedText= Event.target.textContent;
 
-mainEl.innerHTMl = `<h1>${link.textContent}</h1>`;
+ mainEl.innerHTMl = `<h1>${clickedText}</h1>`;
+
+ if (clickedText === 'ABOUT'){
+  mainEl.innerHTML = '<h1>About</h1>';
+   }
+  
+
+
+
 
